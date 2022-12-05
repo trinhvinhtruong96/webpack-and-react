@@ -1,5 +1,6 @@
 const path = require('path');
 const { merge } = require('webpack-merge');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 const TARGET = process.env.npm_lifecycle_event;
 
@@ -27,9 +28,9 @@ const common = {
         ],
         include: PATHS.app,
       }
-    ]
-  }
-
+    ],
+  },
+  plugins: [new ESLintPlugin()],
 }
 
 // Default configuration
@@ -47,7 +48,7 @@ if (TARGET === 'start' || !TARGET) {
       client: {
         progress: true,
       },
-    }
+    },
   });
 }
 
