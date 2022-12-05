@@ -23,6 +23,18 @@ const common = {
 if (TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
     mode: 'production',
+    stats: 'errors-only',
+    devServer: {
+      static: PATHS.build,
+      historyApiFallback: true,
+      hot: true,
+      compress: true,
+      host: process.env.HOST,
+      port: process.env.PORT,
+      client: {
+        progress: true,
+      },
+    }
   });
 }
 
