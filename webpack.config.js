@@ -6,6 +6,7 @@ const PATHS = {
 };
 
 module.exports = {
+  mode: 'development',
   entry: {
     app: PATHS.app
   },
@@ -13,5 +14,4 @@ module.exports = {
     path: PATHS.build,
     filename: 'bundle.js'
   }
-
 }
