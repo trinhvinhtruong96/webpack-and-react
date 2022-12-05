@@ -1,6 +1,7 @@
 const path = require('path');
 const { merge } = require('webpack-merge');
 const ESLintPlugin = require('eslint-webpack-plugin');
+const StylelintPlugin = require('stylelint-webpack-plugin');
 
 const TARGET = process.env.npm_lifecycle_event;
 
@@ -30,7 +31,10 @@ const common = {
       }
     ],
   },
-  plugins: [new ESLintPlugin()],
+  plugins: [
+    new ESLintPlugin(),
+    new StylelintPlugin(),
+  ],
 }
 
 // Default configuration
