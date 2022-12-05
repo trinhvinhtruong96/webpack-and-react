@@ -9,14 +9,27 @@ const PATHS = {
 };
 
 const common = {
-  mode: 'development',
+  devtool: 'source-map',
   entry: {
     app: PATHS.app
   },
   output: {
     path: PATHS.build,
     filename: 'bundle.js'
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+        ],
+        include: PATHS.app,
+      }
+    ]
   }
+
 }
 
 // Default configuration
