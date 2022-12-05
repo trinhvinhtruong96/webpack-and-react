@@ -2,6 +2,8 @@ const path = require('path');
 const { merge } = require('webpack-merge');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
+const ReactRefreshPlugin = require('react-refresh/babel');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const TARGET = process.env.npm_lifecycle_event;
 
@@ -38,6 +40,7 @@ const common = {
 					loader: 'babel-loader',
 					options: {
 						cacheDirectory: true,
+						plugins: [ReactRefreshPlugin]
 					}
 				},
 				include: PATHS.app
@@ -47,13 +50,14 @@ const common = {
 	plugins: [
 		new ESLintPlugin(),
 		new StylelintPlugin(),
+		new ReactRefreshWebpackPlugin(),
 	],
 }
 
 // Default configuration
 if (TARGET === 'start' || !TARGET) {
 	module.exports = merge(common, {
-		mode: 'production',
+		mode: 'development',
 		stats: 'errors-only',
 		devServer: {
 			static: PATHS.build,
@@ -62,6 +66,7 @@ if (TARGET === 'start' || !TARGET) {
 			compress: true,
 			host: process.env.HOST,
 			port: process.env.PORT,
+			open: true,
 		},
 		performance: {
 			hints: false,
@@ -71,7 +76,7 @@ if (TARGET === 'start' || !TARGET) {
 
 if (TARGET === 'build') {
 	module.exports = merge(common, {
-		mode: 'development',
+		mode: 'production',
 	});
 }
 
