@@ -40,18 +40,13 @@ const common = {
 					loader: 'babel-loader',
 					options: {
 						cacheDirectory: true,
-						plugins: [ReactRefreshPlugin]
+						plugins: [TARGET === 'start' && ReactRefreshPlugin]
 					}
 				},
 				include: PATHS.app
 			}
 		],
 	},
-	plugins: [
-		new ESLintPlugin(),
-		new StylelintPlugin(),
-		new ReactRefreshWebpackPlugin(),
-	],
 }
 
 // Default configuration
@@ -66,17 +61,52 @@ if (TARGET === 'start' || !TARGET) {
 			compress: true,
 			host: process.env.HOST,
 			port: process.env.PORT,
-			open: true,
+		},
+		module: {
+			rules: [
+				{
+					test: /\.jsx?$/,
+					use: {
+						loader: 'babel-loader',
+						options: {
+							cacheDirectory: true,
+							plugins: [ReactRefreshPlugin]
+						}
+					},
+					include: PATHS.app
+				}
+			],
 		},
 		performance: {
 			hints: false,
-		}
+		},
+		plugins: [
+			new ESLintPlugin({
+				extensions: ['js', 'jsx']
+			}),
+			new StylelintPlugin(),
+			new ReactRefreshWebpackPlugin(),
+		],
 	});
 }
 
 if (TARGET === 'build') {
 	module.exports = merge(common, {
 		mode: 'production',
+		module: {
+			rules: [
+				{
+					test: /\.jsx?$/,
+					use: {
+						loader: 'babel-loader',
+						options: {
+							cacheDirectory: true,
+						}
+					},
+					include: PATHS.app
+				}
+			],
+		},
 	});
 }
 
