@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default ({ task, onEdit }) => {
+export default ({ task, onEdit, onDelete }) => {
 	const [editing, setEditing] = useState(false);
 
 	const finishEdit = (e) => {
@@ -37,8 +37,15 @@ export default ({ task, onEdit }) => {
 		/>;
 	}
 
+	const renderDelete = () => {
+		return <button onClick={onDelete}>x</button>;
+	};
+
 	const renderNote = () => {
-		return <div onClick={edit}>{task}</div>;
+		return <div onClick={edit}>
+			<span>{task}</span>
+			{onDelete && renderDelete()}
+		</div>;
 	}
 
 	if (editing) {

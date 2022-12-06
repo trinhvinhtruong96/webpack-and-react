@@ -31,19 +31,28 @@ const App = () => {
 		if (!task.trim()) {
 			return;
 		}
-		const newNote = notes.map(note => {
+		const newNotes = notes.map(note => {
 			if (note.id === id) {
 				note.task = task;
 			}
 			return note;
 		})
-		setNotes(newNote);
+		setNotes(newNotes);
+	}
+
+	const onDelete = (id) => {
+		const newNotes = notes.filter(note => note.id !== id);
+		setNotes(newNotes);
 	}
 
 	return (
 		<div>
 			<button onClick={handleAddNote}>+</button>
-			<Notes notes={notes} onEdit={editNote} />
+			<Notes
+				notes={notes}
+				onEdit={editNote}
+				onDelete={onDelete}
+			/>
 		</div>
 	);
 
