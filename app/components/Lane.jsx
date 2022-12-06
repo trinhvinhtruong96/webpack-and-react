@@ -3,6 +3,7 @@ import Notes from './Notes.jsx';
 import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
 import AltContainer from 'alt-container';
+import LaneActions from '../actions/LaneActions';
 
 export default ({ lane, ...props }) => {
 
@@ -14,11 +15,18 @@ export default ({ lane, ...props }) => {
 		NoteActions.update({ id, task });
 	}
 	const addNote = () => {
-		NoteActions.create({ task: 'New task' });
+		const laneId = lane.id;
+		const note = NoteActions.create({ task: 'New task' });
+		LaneActions.attachToLane({
+			noteId: note.id,
+			laneId
+		});
 	}
-	const deleteNote = (id, e) => {
+	const deleteNote = (noteId, e) => {
 		e.stopPropagation();
-		NoteActions.delete(id);
+		const laneId = lane.id;
+		LaneActions.detachFromLane({ laneId, noteId });
+		NoteActions.delete(noteId);
 	}
 
 	return (
@@ -32,7 +40,7 @@ export default ({ lane, ...props }) => {
 			<AltContainer
 				stores={[NoteStore]}
 				inject={{
-					notes: () => NoteStore.getState().notes || []
+					notes: () => NoteStore.getNotesByIds(lane.notes)
 				}}
 			>
 				<Notes onEdit={editNote} onDelete={deleteNote} />
