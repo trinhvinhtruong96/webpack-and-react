@@ -37,7 +37,7 @@ export default ({
 	}
 
 	const renderDelete = () => {
-		return <button onClick={onDelete} className='delete-note'>x</button>;
+		return <button onClick={onDelete} className='delete'>x</button>;
 	};
 
 	const renderValue = () => {

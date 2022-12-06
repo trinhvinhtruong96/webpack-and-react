@@ -32,7 +32,7 @@ body {
 	display: inline-block;
 }
 
-.note .delete-note {
+.note .delete {
 	float: right;
 	padding: 0;
 	background-color: #fdfdfd;
@@ -41,6 +41,6 @@ body {
 	visibility: hidden;
 }
 
-.note:hover .delete-note {
+.note:hover .delete {
 	visibility: visible;
 }
