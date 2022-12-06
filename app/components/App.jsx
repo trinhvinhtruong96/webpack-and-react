@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { } from 'react';
 import Notes from './Notes';
 import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
+import AltContainer from 'alt-container';
 
 const App = () => {
-	const [notes, setNotes] = useState(NoteStore.getState().notes);
-
 	const addNote = () => {
 		NoteActions.create({ task: 'New task' });
 	}
@@ -22,25 +21,20 @@ const App = () => {
 		NoteActions.delete(id)
 	}
 
-	const storeChanged = (state) => {
-		setNotes(state.notes);
-	};
-
-	useEffect(() => {
-		NoteStore.listen(storeChanged);
-		return () => {
-			NoteStore.unlisten(storeChanged);
-		}
-	}, [])
-
 	return (
 		<div>
 			<button className='add-notes' onClick={addNote}>+</button>
-			<Notes
-				notes={notes}
-				onEdit={editNote}
-				onDelete={onDelete}
-			/>
+			<AltContainer
+				stores={[NoteStore]}
+				inject={{
+					notes: () => NoteStore.getState().notes
+				}}
+			>
+				<Notes
+					onEdit={editNote}
+					onDelete={onDelete}
+				/>
+			</AltContainer>
 		</div>
 	);
 
