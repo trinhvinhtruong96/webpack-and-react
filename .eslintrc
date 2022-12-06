@@ -23,7 +23,7 @@
 		"no-unused-vars": 1,
 		"eol-last": 0,
 		"quotes": [
-			2,
+			1,
 			"single"
 		],
 		"jsx-quotes": [
