@@ -47,7 +47,7 @@ const App = () => {
 
 	return (
 		<div>
-			<button onClick={handleAddNote}>+</button>
+			<button className='add-notes' onClick={handleAddNote}>+</button>
 			<Notes
 				notes={notes}
 				onEdit={editNote}

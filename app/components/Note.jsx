@@ -38,12 +38,12 @@ export default ({ task, onEdit, onDelete }) => {
 	}
 
 	const renderDelete = () => {
-		return <button onClick={onDelete}>x</button>;
+		return <button onClick={onDelete} className='delete-note'>x</button>;
 	};
 
 	const renderNote = () => {
 		return <div onClick={edit}>
-			<span>{task}</span>
+			<span className='task'>{task}</span>
 			{onDelete && renderDelete()}
 		</div>;
 	}

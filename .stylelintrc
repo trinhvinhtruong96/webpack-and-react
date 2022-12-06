@@ -2,6 +2,8 @@
     "extends": ["stylelint-config-standard", "stylelint-config-prettier"],
     "rules": {
         "color-hex-case": "lower",
-        "string-quotes": "single"
+        "string-quotes": "single",
+				"color-function-notation": "legacy",
+				"alpha-value-notation": "number",
     }
 }
