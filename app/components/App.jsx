@@ -1,53 +1,41 @@
-import React, { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import React, { useEffect, useState } from 'react';
 import Notes from './Notes';
+import NoteActions from '../actions/NoteActions';
+import NoteStore from '../stores/NoteStore';
 
 const App = () => {
-	const [notes, setNotes] = useState([
-		{
-			id: uuidv4(),
-			task: 'Learn Webpack'
-		},
-		{
-			id: uuidv4(),
-			task: 'Learn React'
-		},
-		{
-			id: uuidv4(),
-			task: 'Do laundry'
-		}
-	]);
+	const [notes, setNotes] = useState(NoteStore.getState().notes);
 
-	const handleAddNote = () => {
-		setNotes(notes.concat([
-			{
-				id: uuidv4(),
-				task: 'New task'
-			}
-		]))
+	const addNote = () => {
+		NoteActions.create({ task: 'New task' });
 	}
 
 	const editNote = (id, task) => {
 		if (!task.trim()) {
 			return;
 		}
-		const newNotes = notes.map(note => {
-			if (note.id === id) {
-				note.task = task;
-			}
-			return note;
-		})
-		setNotes(newNotes);
+		NoteActions.update({ id, task });
 	}
 
-	const onDelete = (id) => {
-		const newNotes = notes.filter(note => note.id !== id);
-		setNotes(newNotes);
+	const onDelete = (id, e) => {
+		e.stopPropagation();
+		NoteActions.delete(id)
 	}
+
+	const storeChanged = (state) => {
+		setNotes(state.notes);
+	};
+
+	useEffect(() => {
+		NoteStore.listen(storeChanged);
+		return () => {
+			NoteStore.unlisten(storeChanged);
+		}
+	}, [])
 
 	return (
 		<div>
-			<button className='add-notes' onClick={handleAddNote}>+</button>
+			<button className='add-notes' onClick={addNote}>+</button>
 			<Notes
 				notes={notes}
 				onEdit={editNote}

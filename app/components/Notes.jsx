@@ -8,7 +8,7 @@ export default ({ notes, onEdit, onDelete }) => {
 				<Note
 					task={note.task}
 					onEdit={(task) => onEdit(note.id, task)}
-					onDelete={() => onDelete(note.id)}
+					onDelete={(e) => onDelete(note.id, e)}
 				/>
 			</li>
 		)}</ul>
