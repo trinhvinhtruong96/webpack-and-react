@@ -1,39 +1,24 @@
 import React, { } from 'react';
-import Notes from './Notes';
-import NoteActions from '../actions/NoteActions';
-import NoteStore from '../stores/NoteStore';
+import Lanes from './Lanes.jsx';
+import LaneActions from '../actions/LaneActions';
+import LaneStore from '../stores/LaneStore';
 import AltContainer from 'alt-container';
 
 const App = () => {
-	const addNote = () => {
-		NoteActions.create({ task: 'New task' });
-	}
-
-	const editNote = (id, task) => {
-		if (!task.trim()) {
-			return;
-		}
-		NoteActions.update({ id, task });
-	}
-
-	const onDelete = (id, e) => {
-		e.stopPropagation();
-		NoteActions.delete(id)
+	const addLane = () => {
+		LaneActions.create({ name: 'New lane' });
 	}
 
 	return (
 		<div>
-			<button className='add-notes' onClick={addNote}>+</button>
+			<button className='add-notes' onClick={addLane}>+</button>
 			<AltContainer
-				stores={[NoteStore]}
+				stores={[LaneStore]}
 				inject={{
-					notes: () => NoteStore.getState().notes
+					lanes: () => LaneStore.getState().lanes
 				}}
 			>
-				<Notes
-					onEdit={editNote}
-					onDelete={onDelete}
-				/>
+				<Lanes />
 			</AltContainer>
 		</div>
 	);
