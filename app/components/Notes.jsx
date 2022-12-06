@@ -1,12 +1,14 @@
 import React from 'react';
-import Note from './Note.jsx';
+import Editable from './Editable.jsx';
 
-export default ({ notes, onEdit, onDelete }) => {
+export default ({ notes, onEdit, onDelete, onValueClick }) => {
 	return (
 		<ul className='notes'>{notes.map(note =>
 			<li className='note' key={note.id}>
-				<Note
-					task={note.task}
+				<Editable
+					editing={note.editing}
+					value={note.task}
+					onValueClick={() => onValueClick(note.id)}
 					onEdit={(task) => onEdit(note.id, task)}
 					onDelete={(e) => onDelete(note.id, e)}
 				/>

@@ -23,6 +23,7 @@
 		"no-use-before-define": 1,
 		"no-unused-vars": 1,
 		"eol-last": 0,
+		"no-undef": 2,
 		"quotes": [
 			1,
 			"single"
@@ -31,7 +32,7 @@
 			"error",
 			"prefer-single"
 		],
-		"react/jsx-no-undef": 1,
+		"react/jsx-no-undef": 2,
 		"react/jsx-uses-react": 1,
 		"react/jsx-uses-vars": 1
 	}

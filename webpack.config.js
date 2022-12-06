@@ -34,17 +34,6 @@ const common = {
 				],
 				include: PATHS.app,
 			},
-			{
-				test: /\.jsx?$/,
-				use: {
-					loader: 'babel-loader',
-					options: {
-						cacheDirectory: true,
-						plugins: [TARGET === 'start' && ReactRefreshPlugin]
-					}
-				},
-				include: PATHS.app
-			}
 		],
 	},
 }
