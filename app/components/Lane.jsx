@@ -11,9 +11,10 @@ export default ({ lane, ...props }) => {
 	const editNote = (id, task) => {
 		// Don't modify if trying set an empty value
 		if (!task.trim()) {
+			NoteActions.update({ id, editing: false });
 			return;
 		}
-		NoteActions.update({ id, task });
+		NoteActions.update({ id, task, editing: false });
 	}
 	const addNote = () => {
 		const laneId = lane.id;
@@ -32,29 +33,27 @@ export default ({ lane, ...props }) => {
 
 	const editName = (name) => {
 		const laneId = lane.id;
-		// eslint-disable-next-line no-console
-		console.log(`edit lane ${laneId} name using ${name}`);
+		// Don't modify if trying set an empty value
+		if (!name.trim()) {
+			LaneActions.update({ id: laneId, editing: false });
+			return;
+		}
+		LaneActions.update({ id: laneId, name, editing: false });
 	};
 
 	const deleteLane = () => {
 		const laneId = lane.id;
-		// eslint-disable-next-line no-console
-		console.log(`delete lane ${laneId}`);
+		LaneActions.delete(laneId);
 	};
 
 	const activateLaneEdit = () => {
 		const laneId = lane.id;
-		// eslint-disable-next-line no-console
-		console.log(`activate lane ${laneId} edit`);
+		LaneActions.update({ id: laneId, editing: true });
 	};
 
 	const activateNoteEdit = (id) => {
-		// eslint-disable-next-line no-console
-		console.log(`activate note ${id} edit`);
+		NoteActions.update({ id, editing: true });
 	}
-
-
-
 
 	return (
 		<div {...props}>
