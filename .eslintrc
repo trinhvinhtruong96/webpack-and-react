@@ -24,6 +24,7 @@
 		"no-unused-vars": 1,
 		"eol-last": 0,
 		"no-undef": 2,
+		"no-debugger": 1,
 		"quotes": [
 			1,
 			"single"
