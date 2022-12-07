@@ -2,7 +2,12 @@ import React from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import itemTypes from '../constants/itemTypes';
 
-export default ({ id, onMove, ...props }) => {
+export default ({
+	id,
+	onMove,
+	editing,
+	...props
+}) => {
 	// eslint-disable-next-line no-unused-vars
 	const [{ isDragging }, drag] = useDrag(() => ({
 		type: itemTypes.NOTE,
@@ -32,7 +37,7 @@ export default ({ id, onMove, ...props }) => {
 
 	return (
 		<div ref={drop}>
-			<div ref={drag}>
+			<div ref={editing ? undefined : drag}>
 				<li  {...props}>{props.children}</li>
 			</div>
 		</div>

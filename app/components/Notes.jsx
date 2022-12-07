@@ -10,7 +10,9 @@ export default ({ notes, onEdit, onDelete, onValueClick }) => {
 				className='note'
 				id={note.id}
 				key={note.id}
-				onMove={LaneActions.move}>
+				editing={note.editing}
+				onMove={LaneActions.move}
+			>
 				<Editable
 					editing={note.editing}
 					value={note.task}

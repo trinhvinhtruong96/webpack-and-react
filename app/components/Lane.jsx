@@ -5,8 +5,31 @@ import NoteStore from '../stores/NoteStore';
 import AltContainer from 'alt-container';
 import LaneActions from '../actions/LaneActions';
 import Editable from './Editable.jsx';
+import itemTypes from '../constants/itemTypes.js';
+import { useDrop } from 'react-dnd';
 
 export default ({ lane, ...props }) => {
+
+	// eslint-disable-next-line no-unused-vars
+	const [{ isOver }, laneDrop] = useDrop(
+		() => ({
+			accept: itemTypes.NOTE,
+			drop: (item) => {
+				if (!lane.notes.length) {
+					LaneActions.attachToLane({
+						laneId: lane.id,
+						noteId: item.id
+					});
+				}
+			},
+			collect: (monitor) => {
+				return {
+					isOver: !!monitor.isOver(),
+				}
+			}
+		}),
+		[]
+	)
 
 	const editNote = (id, task) => {
 		// Don't modify if trying set an empty value
@@ -56,7 +79,7 @@ export default ({ lane, ...props }) => {
 	}
 
 	return (
-		<div {...props}>
+		<div {...props} ref={laneDrop}>
 			<div className='lane-header' onClick={activateLaneEdit}>
 				<div className='lane-add-note'>
 					<button onClick={addNote}>+</button>
