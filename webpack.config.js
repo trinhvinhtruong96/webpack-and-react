@@ -4,6 +4,7 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const ReactRefreshPlugin = require('react-refresh/babel');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const TARGET = process.env.npm_lifecycle_event;
 
@@ -36,6 +37,11 @@ const common = {
 			},
 		],
 	},
+	performance: {
+		hints: false,
+		maxEntrypointSize: 512000,
+		maxAssetSize: 512000
+	},
 }
 
 // Default configuration
@@ -66,9 +72,6 @@ if (TARGET === 'start' || !TARGET) {
 				}
 			],
 		},
-		performance: {
-			hints: false,
-		},
 		plugins: [
 			new ESLintPlugin({
 				extensions: ['js', 'jsx']
@@ -95,6 +98,12 @@ if (TARGET === 'build') {
 					include: PATHS.app
 				}
 			],
+		},
+		optimization: {
+			minimize: true,
+			minimizer: [new TerserPlugin({
+				test: /\.jsx?$/,
+			})],
 		},
 	});
 }
