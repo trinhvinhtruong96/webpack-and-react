@@ -5,6 +5,7 @@ const StylelintPlugin = require('stylelint-webpack-plugin');
 const ReactRefreshPlugin = require('react-refresh/babel');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const pkg = require('./package.json');
 
 const TARGET = process.env.npm_lifecycle_event;
 
@@ -23,7 +24,7 @@ const common = {
 	},
 	output: {
 		path: PATHS.build,
-		filename: 'bundle.js'
+		filename: '[name].js'
 	},
 	module: {
 		rules: [
@@ -99,11 +100,21 @@ if (TARGET === 'build') {
 				}
 			],
 		},
+		entry: {
+			vendor: Object.keys(pkg.dependencies).filter(function (v) {
+				// Exclude alt-utils as it won't work with this setup
+				// due to the way the package has been designed
+				// (no package.json main).
+				return v !== 'alt-utils' && v !== 'node-uuid';
+			})
+		},
 		optimization: {
 			minimize: true,
 			minimizer: [new TerserPlugin({
 				test: /\.jsx?$/,
 			})],
+			splitChunks: { chunks: 'all' },
+			runtimeChunk: { name: 'manifest' },
 		},
 	});
 }
