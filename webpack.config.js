@@ -6,6 +6,7 @@ const ReactRefreshPlugin = require('react-refresh/babel');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const pkg = require('./package.json');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const TARGET = process.env.npm_lifecycle_event;
 
@@ -24,7 +25,9 @@ const common = {
 	},
 	output: {
 		path: PATHS.build,
-		filename: '[name].js'
+		filename: '[name].[chunkhash].js',
+		chunkFilename: '[chunkhash].js',
+		clean: true,
 	},
 	module: {
 		rules: [
@@ -43,6 +46,13 @@ const common = {
 		maxEntrypointSize: 512000,
 		maxAssetSize: 512000
 	},
+	plugins: [
+		new HtmlWebpackPlugin({
+			template: 'app/htmlTemplate/template.html',
+			title: 'Kanban app',
+			appMountId: 'app',
+		})
+	]
 }
 
 // Default configuration
