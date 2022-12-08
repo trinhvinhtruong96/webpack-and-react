@@ -13,13 +13,15 @@ const TARGET = process.env.npm_lifecycle_event;
 
 const PATHS = {
 	app: path.join(__dirname, 'app'),
-	build: path.join(__dirname, 'build')
+	build: path.join(__dirname, 'build'),
+	style: path.join(__dirname, 'app/main.css')
 };
 
 const common = {
 	devtool: 'source-map',
 	entry: {
-		app: PATHS.app
+		app: PATHS.app,
+		style: PATHS.style
 	},
 	resolve: {
 		extensions: ['', '.js', '.jsx']
