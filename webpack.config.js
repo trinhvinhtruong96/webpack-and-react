@@ -7,6 +7,7 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const TerserPlugin = require('terser-webpack-plugin');
 const pkg = require('./package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const TARGET = process.env.npm_lifecycle_event;
 
@@ -29,18 +30,18 @@ const common = {
 		chunkFilename: '[chunkhash].js',
 		clean: true,
 	},
-	module: {
-		rules: [
-			{
-				test: /\.css$/,
-				use: [
-					'style-loader',
-					'css-loader',
-				],
-				include: PATHS.app,
-			},
-		],
-	},
+	// module: {
+	// 	rules: [
+	// 		{
+	// 			test: /\.css$/,
+	// 			use: [
+	// 				'style-loader',
+	// 				'css-loader',
+	// 			],
+	// 			include: PATHS.app,
+	// 		},
+	// 	],
+	// },
 	performance: {
 		hints: false,
 		maxEntrypointSize: 512000,
@@ -80,7 +81,15 @@ if (TARGET === 'start' || !TARGET) {
 						}
 					},
 					include: PATHS.app
-				}
+				},
+				{
+					test: /\.css$/,
+					use: [
+						'style-loader',
+						'css-loader',
+					],
+					include: PATHS.app,
+				},
 			],
 		},
 		plugins: [
@@ -107,7 +116,12 @@ if (TARGET === 'build') {
 						}
 					},
 					include: PATHS.app
-				}
+				},
+				{
+					test: /\.css$/,
+					use: [MiniCssExtractPlugin.loader, 'css-loader'],
+					include: PATHS.app,
+				},
 			],
 		},
 		entry: {
@@ -126,6 +140,9 @@ if (TARGET === 'build') {
 			splitChunks: { chunks: 'all' },
 			runtimeChunk: { name: 'manifest' },
 		},
+		plugins: [new MiniCssExtractPlugin({
+			filename: '[name].[chunkhash].css'
+		})],
 	});
 }
 
